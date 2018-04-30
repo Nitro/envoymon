@@ -1,5 +1,14 @@
 #!/usr/bin/env crystal
 
+# ------------------------------------------------------------------------------
+# Envoymon
+# ------------------------------------------------------------------------------
+# Fetches data from an Envoy /clusters endpoint and relays stats to New Relic
+# Insights via the Insights API. Keeps state between runs in memory and
+# calculates differences in the results so that the counters are sent up as
+# gauges instead.
+# ------------------------------------------------------------------------------
+
 require "http/client"
 require "option_parser"
 require "json"
@@ -40,5 +49,5 @@ while true
 
   # Sleep up to 1 minute, subtracting the elapsed run time to
   # try to keep on a 1 minute loop
-  sleep(Time::Span.new(0, 0, 10) - elapsed)
+  sleep(Time::Span.new(0, 1, 0) - elapsed)
 end
