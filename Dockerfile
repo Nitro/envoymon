@@ -9,5 +9,6 @@ RUN apt-get update && apt-get install -y libgc-dev
 ADD envoymon.cr /build
 ADD src /build/src
 
+RUN crystal deps
 RUN crystal spec/
 RUN crystal build --release envoymon.cr
