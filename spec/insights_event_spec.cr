@@ -107,6 +107,13 @@ describe Envoymon::InsightsEvent do
       expect(result.data["10.4.18.35:24699"]["rq_error"]).to eq(1_i64)
     end
 
+    it "builds the right events in subtract()" do
+      result = base_event.subtract(new_event)
+
+      expect(result.timestamp).to match(/^[0-9]{4}-[0-9]{2}-[0-9]{2}/)
+      expect(result.name).to eq("nginx-raster-10111-public")
+    end
+
     it "does not pass through new entries that don't exist in the old set" do
       new_event.data["10.4.19.123:12312"] = new_event.data["10.4.19.228:30848"]
       result = base_event.subtract(new_event)

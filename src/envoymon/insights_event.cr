@@ -55,7 +55,7 @@ module Envoymon
         end
       end
 
-      InsightsEvent.new(@name, other.timestamp, result)
+      InsightsEvent.new(other.timestamp, @name, result)
     end
   end
 end

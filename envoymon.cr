@@ -39,15 +39,16 @@ end
 
 while true
   elapsed = capture_timing do
-    response = collector.update
-    if response.empty?
-      puts "empty"
+    events = collector.update
+    if events.empty?
+      puts "Update response was empty. Waiting for data"
     else
-      p response["sidecar-sds"].data["127.0.0.1:7777"]["rq_total"]
+      p events["sidecar-sds"].data["127.0.0.1:7777"]["rq_total"]
+      collector.post_to_insights(events.values)
     end
   end
 
   # Sleep up to 1 minute, subtracting the elapsed run time to
   # try to keep on a 1 minute loop
-  sleep(Time::Span.new(0, 1, 0) - elapsed)
+  sleep(Time::Span.new(0, 0, 10) - elapsed)
 end

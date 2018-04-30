@@ -1,6 +1,5 @@
 require "spec2"
 require "../src/envoymon/collector.cr"
-require "mocks/spec"
 require "webmock"
 
 include Spec2::GlobalDSL

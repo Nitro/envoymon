@@ -4,6 +4,8 @@ module Envoymon
     @last_fetch : Time
     @last_data : Hash(String, InsightsEvent)
 
+    @headers : HTTP::Headers?
+
     getter   :last_data
     property :last_fetch
 
