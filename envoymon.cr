@@ -43,12 +43,11 @@ while true
     if events.empty?
       puts "Update response was empty. Waiting for data"
     else
-      p events["sidecar-sds"].data["127.0.0.1:7777"]["rq_total"]
       collector.post_to_insights(events.values)
     end
   end
 
   # Sleep up to 1 minute, subtracting the elapsed run time to
   # try to keep on a 1 minute loop
-  sleep(Time::Span.new(0, 0, 10) - elapsed)
+  sleep(Time::Span.new(0, 1, 0) - elapsed)
 end
