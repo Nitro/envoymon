@@ -1,0 +1,22 @@
+version: 1.0
+shards:
+  mocks:
+    github: waterlink/mocks.cr
+    version: 0.9.5
+
+  singleton:
+    github: waterlink/singleton.cr
+    version: 1.0.0
+
+  spec2:
+    github: waterlink/spec2.cr
+    version: 0.11.0
+
+  spec2-mocks:
+    github: waterlink/spec2-mocks.cr
+    version: 0.4.1
+
+  webmock:
+    github: manastech/webmock.cr
+    commit: 7e7e7ff4d00afbb708909e1721e9f9bceddda726
+
