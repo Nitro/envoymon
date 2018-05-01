@@ -60,9 +60,7 @@ Pull requests should:
  * Include tests!
  * Not break the public API
 
-If you are simply looking to contribute to the project, taking on one of the
-items in the "Future Additions" section above would be a great place to start.
-Ping us to let us know you're working on it by opening a GitHub Issue on the
+Ping us to let us know what you're working on by opening a GitHub Issue on the
 project.
 
 Copyright (c) 2018 Nitro Software
