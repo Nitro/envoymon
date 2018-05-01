@@ -22,6 +22,7 @@ port = 9901
 hostname = "localhost"
 insights_url = ""
 insights_key = ""
+environment = "dev" # e.g. dev|prod|test
 
 OptionParser.parse! do |parser|
   parser.banner = "Usage: envoymon [arguments]"
@@ -29,6 +30,7 @@ OptionParser.parse! do |parser|
   parser.on("-p PORT", "--port=PORT", "The Enovy stats port") { |p| port = p.to_i }
   parser.on("-i URL", "--insights-url=URL", "Insights URL to report to") { |u| insights_url = u }
   parser.on("-k KEY", "--insights-key=KEY", "Insights Insert key") { |k| insights_key = k }
+  parser.on("-e ENV", "--environment=ENV", "Runtime environment name") { |e| environment = e }
   parser.on("--help", "Show this help") { puts parser; exit }
 end
 
@@ -36,7 +38,7 @@ if insights_key.empty? || insights_url.empty?
   abort "Insights URL and Key are required. Try --help"
 end
 
-collector = Envoymon::Collector.new(hostname, port)
+collector = Envoymon::Collector.new(hostname, port, environment)
 reporter = Envoymon::InsightsReporter.new(insights_url, insights_key)
 
 def capture_timing(&block)
