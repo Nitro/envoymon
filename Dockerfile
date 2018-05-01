@@ -21,7 +21,7 @@ RUN crystal build --release envoymon.cr
 # Production Container
 # ------------------------------------------------------------------------------
 FROM alpine:3.7
-RUN apk update && apk add openssl-dev gc curl gcc libevent pcre
+RUN apk update && apk add openssl-dev gc curl libgcc libevent pcre
 
 RUN cd / && curl -L https://github.com/just-containers/skaware/releases/download/v1.21.2/s6-2.6.1.1-linux-amd64-bin.tar.gz | tar -xvzf -
 ADD s6 /etc
