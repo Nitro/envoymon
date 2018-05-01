@@ -116,6 +116,13 @@ describe Envoymon::InsightsEvent do
       expect(result.data["10.4.18.35:24699"]["rq_error"]).to eq(1_i64)
     end
 
+    it "does not return negative numbers" do
+      new_event.data["10.4.19.228:30848"]["cx_total"] = 0_i64
+      result = base_event.subtract(new_event)
+
+      expect(result.data["10.4.19.228:30848"]["cx_total"]).to eq(0_i64)
+    end
+
     it "builds the right events in subtract()" do
       result = base_event.subtract(new_event)
 
