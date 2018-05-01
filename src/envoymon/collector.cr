@@ -1,5 +1,6 @@
 module Envoymon
   class HttpStatusError < Exception; end
+
   class HttpConnectError < Exception; end
 
   class Collector
@@ -7,10 +8,10 @@ module Envoymon
     @last_fetch : Time
     @last_data : Hash(String, InsightsEvent)
 
-    getter   :last_data
+    getter :last_data
     property :last_fetch
 
-    def initialize(@hostname : String, @port : Int32)
+    def initialize(@hostname : String, @port : Int32, @environment : String)
       @last_data = Hash(String, InsightsEvent).new
       @last_fetch = Time.epoch(0)
     end
@@ -96,7 +97,7 @@ module Envoymon
       base_time = Time.utc_now
       data.reduce(Hash(String, InsightsEvent).new) do |memo, (name, values)|
         values.each do |v|
-          memo[name] = InsightsEvent.new(base_time.to_s, name, values)
+          memo[name] = InsightsEvent.new(base_time.to_s, name, @environment, values)
         end
         memo
       end

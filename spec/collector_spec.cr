@@ -7,11 +7,11 @@ include Spec2::GlobalDSL
 describe Envoymon::Collector do
   let(response1) { File.read("spec/fixtures/clusters_response.txt") }
   let(response2) { File.read("spec/fixtures/clusters_response_2.txt") }
-  let(collector) { Envoymon::Collector.new("some-host", 666) }
+  let(collector) { Envoymon::Collector.new("some-host", 666, "dev") }
 
   before do
-    WebMock.stub(:get, "some-host:666/clusters").
-      to_return(status: 200, body: response1)
+    WebMock.stub(:get, "some-host:666/clusters")
+           .to_return(status: 200, body: response1)
   end
 
   after do
@@ -35,8 +35,8 @@ describe Envoymon::Collector do
       collector.last_fetch = Time.utc_now - Time::Span.new(-1, 1, 0)
 
       WebMock.reset
-      WebMock.stub(:get, "some-host:666/clusters").
-        to_return(status: 200, body: response2)
+      WebMock.stub(:get, "some-host:666/clusters")
+             .to_return(status: 200, body: response2)
 
       original_data = collector.last_data
       result = collector.update
@@ -54,6 +54,12 @@ describe Envoymon::Collector do
 
       # Timestamp should have been updated in the last two seconds (lots of slack here)
       expect(collector.last_fetch > Time.utc_now - Time::Span.new(0, 0, 2)).to be_true
+    end
+
+    it "passes the environment into the InsightsEvents" do
+      collector.update
+
+      expect(collector.last_data["sidecar-sds"].environment).to eq("dev")
     end
   end
 end

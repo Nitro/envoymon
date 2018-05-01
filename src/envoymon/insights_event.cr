@@ -1,12 +1,20 @@
+require "json"
+
 module Envoymon
   class DiffError < Exception; end
 
   class InsightsEvent
-    getter   :data
+    getter :data
     property :name
-    getter   :timestamp
+    getter :timestamp
+    getter :environment
 
-    def initialize(@timestamp : String, @name : String, @data : Hash(String, Hash(String, Int64))); end
+    def initialize(
+      @timestamp : String,
+      @name : String,
+      @environment : String,
+      @data : Hash(String, Hash(String, Int64))
+    ); end
 
     def to_json
       host_port = @data.keys.first
@@ -16,6 +24,7 @@ module Envoymon
         json.object do
           json.field "timestamp", @timestamp
           json.field "eventType", "EnvoyStats"
+          json.field "environment", @environment
           json.field "service", @name
           json.field "sourceIpHost", host_port
           json.field "cx_active", values["cx_active"]
@@ -35,7 +44,7 @@ module Envoymon
       raise DiffError.new("Event names don't match! ('#{other.name}' vs '#{@name}')") if other.name != @name
 
       # Preserve the fields that we don't subtract
-      preserved_fields = %w{ cx_active rq_active weight }
+      preserved_fields = %w{cx_active rq_active weight}
       result = Hash(String, Hash(String, Int64)).new
 
       preserved_fields.each do |stat_name|
@@ -55,7 +64,7 @@ module Envoymon
         end
       end
 
-      InsightsEvent.new(other.timestamp, @name, result)
+      InsightsEvent.new(other.timestamp, @name, @environment, result)
     end
   end
 end

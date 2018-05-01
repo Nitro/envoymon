@@ -25,10 +25,10 @@ insights_key = ""
 
 OptionParser.parse! do |parser|
   parser.banner = "Usage: envoymon [arguments]"
-  parser.on("-h HOST", "--host=HOST", "The Envoy hostname")   { |h| hostname = h }
+  parser.on("-h HOST", "--host=HOST", "The Envoy hostname") { |h| hostname = h }
   parser.on("-p PORT", "--port=PORT", "The Enovy stats port") { |p| port = p.to_i }
-  parser.on("-i URL",  "--insights-url=URL", "Insights URL to report to") { |u| insights_url = u }
-  parser.on("-k KEY",  "--insights-key=KEY", "Insights Insert key") { |k| insights_key = k }
+  parser.on("-i URL", "--insights-url=URL", "Insights URL to report to") { |u| insights_url = u }
+  parser.on("-k KEY", "--insights-key=KEY", "Insights Insert key") { |k| insights_key = k }
   parser.on("--help", "Show this help") { puts parser; exit }
 end
 

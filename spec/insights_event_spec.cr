@@ -6,81 +6,90 @@ include Spec2::GlobalDSL
 describe Envoymon::InsightsEvent do
   let(base_time) { Time.utc_now - Time::Span.new(0, 1, 0) }
   let(base_event) do
-    Envoymon::InsightsEvent.new(base_time.to_s, "nginx-raster-10111-public",
-    {
-      "10.4.18.35:24699" => {
-        "cx_active"       => 4_i64,
-        "cx_connect_fail" => 1_i64,
-        "cx_total"        => 12541_i64,
-        "rq_active"       => 0_i64,
-        "rq_error"        => 0_i64,
-        "rq_success"      => 53064_i64,
-        "rq_timeout"      => 0_i64,
-        "rq_total"        => 53065_i64,
-        "weight"          => 1_i64,
-      },
-      "10.4.18.235:31259" => {
-        "cx_active"       => 4_i64,
-        "cx_connect_fail" => 0_i64,
-        "cx_total"        => 12449_i64,
-        "rq_active"       => 0_i64,
-        "rq_error"        => 1_i64,
-        "rq_success"      => 53064_i64,
-        "rq_timeout"      => 0_i64,
-        "rq_total"        => 53065_i64,
-        "weight"          => 1_i64,
-      },
-      "10.4.19.228:30848" => {
-        "cx_active"       => 5_i64,
-        "cx_connect_fail" => 0_i64,
-        "cx_total"        => 12521_i64,
-        "rq_active"       => 0_i64,
-        "rq_error"        => 1_i64,
-        "rq_success"      => 53063_i64,
-        "rq_timeout"      => 0_i64,
-        "rq_total"        => 53064_i64,
-        "weight"          => 1_i64,
-      },
-    })
+    Envoymon::InsightsEvent.new(base_time.to_s, "nginx-raster-10111-public", "dev",
+      {
+        "10.4.18.35:24699" => {
+          "cx_active"       => 4_i64,
+          "cx_connect_fail" => 1_i64,
+          "cx_total"        => 12541_i64,
+          "rq_active"       => 0_i64,
+          "rq_error"        => 0_i64,
+          "rq_success"      => 53064_i64,
+          "rq_timeout"      => 0_i64,
+          "rq_total"        => 53065_i64,
+          "weight"          => 1_i64,
+        },
+        "10.4.18.235:31259" => {
+          "cx_active"       => 4_i64,
+          "cx_connect_fail" => 0_i64,
+          "cx_total"        => 12449_i64,
+          "rq_active"       => 0_i64,
+          "rq_error"        => 1_i64,
+          "rq_success"      => 53064_i64,
+          "rq_timeout"      => 0_i64,
+          "rq_total"        => 53065_i64,
+          "weight"          => 1_i64,
+        },
+        "10.4.19.228:30848" => {
+          "cx_active"       => 5_i64,
+          "cx_connect_fail" => 0_i64,
+          "cx_total"        => 12521_i64,
+          "rq_active"       => 0_i64,
+          "rq_error"        => 1_i64,
+          "rq_success"      => 53063_i64,
+          "rq_timeout"      => 0_i64,
+          "rq_total"        => 53064_i64,
+          "weight"          => 1_i64,
+        },
+      })
   end
 
   let(new_event) do
-    Envoymon::InsightsEvent.new(base_time.to_s, "nginx-raster-10111-public",
-    {
-      "10.4.18.35:24699" => {
-        "cx_active"       => 5_i64,
-        "cx_connect_fail" => 1_i64,
-        "cx_total"        => 12570_i64,
-        "rq_active"       => 0_i64,
-        "rq_error"        => 1_i64,
-        "rq_success"      => 53184_i64,
-        "rq_timeout"      => 0_i64,
-        "rq_total"        => 53185_i64,
-        "weight"          => 1_i64,
-      },
-      "10.4.18.235:31259" => {
-        "cx_active"       => 4_i64,
-        "cx_connect_fail" => 0_i64,
-        "cx_total"        => 12478_i64,
-        "rq_active"       => 0_i64,
-        "rq_error"        => 1_i64,
-        "rq_success"      => 53183_i64,
-        "rq_timeout"      => 0_i64,
-        "rq_total"        => 53184_i64,
-        "weight"          => 1_i64,
-      },
-      "10.4.19.228:30848" => {
-        "cx_active"       => 4_i64,
-        "cx_connect_fail" => 0_i64,
-        "cx_total"        => 12547_i64,
-        "rq_active"       => 0_i64,
-        "rq_error"        => 1_i64,
-        "rq_success"      => 53183_i64,
-        "rq_timeout"      => 0_i64,
-        "rq_total"        => 53184_i64,
-        "weight"          => 1_i64,
-      },
-    })
+    Envoymon::InsightsEvent.new(base_time.to_s, "nginx-raster-10111-public", "dev",
+      {
+        "10.4.18.35:24699" => {
+          "cx_active"       => 5_i64,
+          "cx_connect_fail" => 1_i64,
+          "cx_total"        => 12570_i64,
+          "rq_active"       => 0_i64,
+          "rq_error"        => 1_i64,
+          "rq_success"      => 53184_i64,
+          "rq_timeout"      => 0_i64,
+          "rq_total"        => 53185_i64,
+          "weight"          => 1_i64,
+        },
+        "10.4.18.235:31259" => {
+          "cx_active"       => 4_i64,
+          "cx_connect_fail" => 0_i64,
+          "cx_total"        => 12478_i64,
+          "rq_active"       => 0_i64,
+          "rq_error"        => 1_i64,
+          "rq_success"      => 53183_i64,
+          "rq_timeout"      => 0_i64,
+          "rq_total"        => 53184_i64,
+          "weight"          => 1_i64,
+        },
+        "10.4.19.228:30848" => {
+          "cx_active"       => 4_i64,
+          "cx_connect_fail" => 0_i64,
+          "cx_total"        => 12547_i64,
+          "rq_active"       => 0_i64,
+          "rq_error"        => 1_i64,
+          "rq_success"      => 53183_i64,
+          "rq_timeout"      => 0_i64,
+          "rq_total"        => 53184_i64,
+          "weight"          => 1_i64,
+        },
+      })
+  end
+
+  describe "Passes through initialization settings to JSON" do
+    it "preserves the environment and service" do
+      json = new_event.to_json
+
+      expect(json).to match(/nginx-raster-10111-public/)
+      expect(json).to match(/"environment":"dev"/)
+    end
   end
 
   describe "Handling event subtraction" do

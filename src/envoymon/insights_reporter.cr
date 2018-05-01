@@ -2,7 +2,6 @@ require "logger"
 
 module Envoymon
   class InsightsReporter
-
     @headers : HTTP::Headers
     @logger : Logger?
 
