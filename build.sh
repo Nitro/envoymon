@@ -1,6 +1,5 @@
-#!/bin/sh
+#!/bin/sh -e
 
-docker build -t envoymon .
-id=$(docker create envoymon)
-docker cp $id:/build/envoymon .
-docker rm -v $id
+TAG=$(git rev-parse --short HEAD)
+docker build -t gonitro/envoymon:${ATG} .
+docker push gonitro/envoymon:${TAG}

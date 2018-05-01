@@ -20,19 +20,24 @@ require "./src/envoymon/collector"
 
 port = 9901
 hostname = "localhost"
-
-INSIGHTS_URL        = "https://insights-collector.newrelic.com/v1/accounts/YOUR_ACCOUNT_NUMBER/events"
-INSIGHTS_INSERT_KEY = "YOUR_INSIGHTS_KEY"
+insights_url = ""
+insights_key = ""
 
 OptionParser.parse! do |parser|
   parser.banner = "Usage: envoymon [arguments]"
   parser.on("-h HOST", "--host=HOST", "The Envoy hostname")   { |h| hostname = h }
   parser.on("-p PORT", "--port=PORT", "The Enovy stats port") { |p| port = p.to_i }
+  parser.on("-i URL",  "--insights-url=URL", "Insights URL to report to") { |u| insights_url = u }
+  parser.on("-k KEY",  "--insights-key=KEY", "Insights Insert key") { |k| insights_key = k }
   parser.on("--help", "Show this help") { puts parser; exit }
 end
 
+if insights_key.empty? || insights_url.empty?
+  abort "Insights URL and Key are required. Try --help"
+end
+
 collector = Envoymon::Collector.new(hostname, port)
-reporter = Envoymon::InsightsReporter.new(INSIGHTS_URL, INSIGHTS_INSERT_KEY)
+reporter = Envoymon::InsightsReporter.new(insights_url, insights_key)
 
 def capture_timing(&block)
   start_time = Time.utc_now
