@@ -1,0 +1,19 @@
+#!/bin/sh
+
+die() {
+	echo $1 >&2
+	exit 1
+}
+
+# Validate that we got a complete setup
+test -z $ENVOYMON_HOST && die "Missing ENVOYMON_HOST"
+test -z $ENVOYMON_PORT && die "Missing ENVOYMON_PORT"
+test -z $ENVOYMON_INSIGHTS_URL && die "Missing ENVOYMON_INSIGHTS_URL"
+test -z $ENVOYMON_INSIGHTS_INSERT_KEY && die "Missing ENVOYMON_INSIGHTS_INSERT_KEY"
+
+# Start up with the right options
+/envoymon/envoymon \
+	-h ${ENVOYMON_HOST} \
+	-p ${ENVOYMON_PORT} \
+	-i ${ENVOYMON_INSIGHTS_URL} \
+	-k ${ENVOYMON_INSIGHTS_INSERT_KEY}
