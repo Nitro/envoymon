@@ -6,7 +6,7 @@ RUN mkdir /build
 WORKDIR /build
 RUN apt-get update && apt-get install -y libgc-dev
 
-ADD envoymon.cr /build
+ADD envoymon.cr shard.yml shard.lock /build/
 ADD src /build/src
 
 RUN crystal deps
