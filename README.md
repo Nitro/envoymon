@@ -15,8 +15,8 @@ Sample New Relic Insights dashboard using data from Envoymon:
 Configuration
 -------------
 
-If you run envoymon on the CLI, you can use command line optinos to configure
-it. Example help output:
+If you run envoymon on the CLI, you can use command line flags to configure it.
+Example help output:
 
 ```
 $ ./envoymon --help
