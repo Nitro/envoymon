@@ -12,8 +12,10 @@
 require "http/client"
 require "option_parser"
 require "json"
+require "logger"
 
 require "./src/envoymon/insights_event"
+require "./src/envoymon/insights_reporter"
 require "./src/envoymon/collector"
 
 port = 9901
@@ -30,6 +32,7 @@ OptionParser.parse! do |parser|
 end
 
 collector = Envoymon::Collector.new(hostname, port)
+reporter = Envoymon::InsightsReporter.new(INSIGHTS_URL, INSIGHTS_INSERT_KEY)
 
 def capture_timing(&block)
   start_time = Time.utc_now
@@ -41,9 +44,9 @@ while true
   elapsed = capture_timing do
     events = collector.update
     if events.empty?
-      puts "Update response was empty. Waiting for data"
+      Logger.new(STDOUT).info "Starting from empty state. Waiting for more data."
     else
-      collector.post_to_insights(events.values)
+      reporter.post_to_insights(events.values)
     end
   end
 

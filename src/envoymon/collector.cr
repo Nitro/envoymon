@@ -1,10 +1,11 @@
 module Envoymon
+  class HttpStatusError < Exception; end
+  class HttpConnectError < Exception; end
+
   class Collector
     @client : HTTP::Client?
     @last_fetch : Time
     @last_data : Hash(String, InsightsEvent)
-
-    @headers : HTTP::Headers?
 
     getter   :last_data
     property :last_fetch
@@ -64,30 +65,13 @@ module Envoymon
       new_data
     end
 
-    def post_to_insights(events : Array(InsightsEvent))
-      if events.empty?
-        puts "Empty events, skipping post"
-        return
-      end
-
-      body = generate_post_body(events)
-      response = HTTP::Client.post(INSIGHTS_URL, headers, body)
-
-      if response.status_code != 200
-        puts "ERROR: Can't post to Insights: #{response.status_code} -> #{response.body}"
-        return
-      end
-
-      puts "#{response.status_code} - #{response.body}"
-    end
-
     def fetch
       response = nil
       begin
         response = client.get "/clusters"
-        abort "Failed to fetch: #{response.status_message}" unless response.status_code == 200
-      rescue e : Socket::Error | IO::Timeout
-        abort "Can't connect: #{e}"
+        raise HttpStatusError.new("Failed to fetch: #{response.status_message}") unless response.status_code == 200
+      rescue e : Socket::Error | IO::Timeout | Errno
+        raise HttpConnectError.new("Can't connect: #{e}")
       end
       response
     end
@@ -100,20 +84,6 @@ module Envoymon
         output[k] = old_data[k].subtract(v)
       end
       output
-    end
-
-    private def headers
-      @headers ||= HTTP::Headers.new.tap do |h|
-        h.add("Content-Type", "application/json")
-        h.add("X-Insert-Key", INSIGHTS_INSERT_KEY)
-      end
-    end
-
-    private def generate_post_body(events : Array(InsightsEvent))
-      json_array = events.map do |evt|
-        evt.to_json
-      end
-      "[" + json_array.join(",\n") + "]"
     end
 
     private def client
