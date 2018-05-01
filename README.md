@@ -12,6 +12,33 @@ gauges instead.
 Sample New Relic Insights dashboard using data from Envoymon:
 ![Sample Dashboard](assets/envoy_dash.png)
 
+Configuration
+-------------
+
+If you run envoymon on the CLI, you can use command line optinos to configure
+it. Example help output:
+
+```
+$ ./envoymon --help
+Usage: envoymon [arguments]
+    -h HOST, --host=HOST             The Envoy hostname
+    -p PORT, --port=PORT             The Enovy stats port
+    -i URL, --insights-url=URL       Insights URL to report to
+    -k KEY, --insights-key=KEY       Insights Insert key
+    -e ENV, --environment=ENV        Runtime environment name
+    --help                           Show this help
+```
+
+If you are running the Docker container, you may configure it with the
+following environment variables:
+
+ * `ENVOYMON_HOST`: The Envoy hostname
+ * `ENVOYMON_PORT`: The Enovy stats port
+ * `ENVOYMON_INSIGHTS_URL`: New Relic Insights URL to report to
+ * `ENVOYMON_INSIGHTS_INSERT_KEY`: New Relic Insights Insights Insert key
+ * `ENVOYMON_ENVIRONMENT`: A name for this environment, usually something
+    like 'production', 'prod', 'development', or 'staging'.
+
 Building
 --------
 
