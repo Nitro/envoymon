@@ -11,6 +11,7 @@ RUN mkdir /build
 WORKDIR /build
 
 ADD envoymon.cr shard.yml shard.lock /build/
+ADD spec /build/spec
 ADD src /build/src
 
 RUN crystal deps
