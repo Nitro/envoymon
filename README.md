@@ -9,5 +9,6 @@ gauges instead.
 Building
 --------
 
-On a Linux host with Docker, run `./build.sh`. The binary will be dropped
-into the current directory.
+On a Linux host with Docker, run `./build.sh`. A container based on Alpine
+Linux is the result. It will be pushed to Docker Hub automatically, tagged
+with the most recent git sha.
