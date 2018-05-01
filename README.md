@@ -1,6 +1,9 @@
 Envoymon
 ========
 
+[![](https://images.microbadger.com/badges/image/gonitro/envoymon.svg)](https://microbadger.com/images/gonitro/envoymon "Get your own image badge on microbadger.com")
+[![](https://images.microbadger.com/badges/version/gonitro/envoymon.svg)](https://microbadger.com/images/gonitro/envoymon "Get your own version badge on microbadger.com")
+
 Fetches data from an Envoy `/clusters` endpoint and relays stats to New Relic
 Insights via the Insights API. Keeps state between runs in memory and
 calculates differences in the results so that the counters are sent up as
