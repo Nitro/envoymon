@@ -12,6 +12,8 @@ gauges instead.
 Sample New Relic Insights dashboard using data from Envoymon:
 ![Sample Dashboard](assets/envoy_dash.png)
 
+Take a look at [some example queries](nrql.md) to get started.
+
 Configuration
 -------------
 
