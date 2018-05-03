@@ -47,6 +47,13 @@ def capture_timing(&block)
   Time.utc_now - start_time
 end
 
+# Try to keep on a nearly 1 minute schedule by sleeping a little
+# less than 1 minute when possible
+def maybe_sleep(elapsed)
+  maybe_sleep_time = Time::Span.new(0, 1, 0) - elapsed
+  sleep(maybe_sleep_time) if maybe_sleep_time > Time::Span.new(0, 0, 0)
+end
+
 while true
   elapsed = capture_timing do
     events = collector.update
@@ -57,7 +64,5 @@ while true
     end
   end
 
-  # Sleep up to 1 minute, subtracting the elapsed run time to
-  # try to keep on a 1 minute loop
-  sleep(Time::Span.new(0, 1, 0) - elapsed)
+  maybe_sleep(elapsed)
 end
