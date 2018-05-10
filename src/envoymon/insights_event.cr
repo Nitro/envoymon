@@ -61,7 +61,10 @@ module Envoymon
           next unless @data.has_key?(host)
           result[host] = Hash(String, Int64).new unless result.has_key?(host)
           result[host][stat_name] = values[stat_name] - @data[host][stat_name]
-          result[host][stat_name] = 0_i64 if (result[host][stat_name] < 0_i64)
+          # If we rolled over the stat such that we'd end up with a
+          # negative number, the implication is that the proxy restarted
+          # during this minute and we can just use the new value.
+          result[host][stat_name] = values[stat_name] if (result[host][stat_name] < 0_i64)
         end
       end
 
