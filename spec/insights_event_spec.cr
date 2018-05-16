@@ -83,7 +83,18 @@ describe Envoymon::InsightsEvent do
       })
   end
 
-  describe "Passes through initialization settings to JSON" do
+  describe "When generating JSON" do
+    it "doesn't crash when event is malformed" do
+      evt = Envoymon::InsightsEvent.new(
+        new_event.timestamp, # just re-use any valid timestamp
+        "borked",
+        "bork world",
+        Hash(String, Hash(String, Int64)).new
+      )
+
+      expect { evt.to_json }.not_to raise_error
+    end
+
     it "preserves the environment and service" do
       json = new_event.to_json
 

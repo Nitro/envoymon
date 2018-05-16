@@ -17,8 +17,10 @@ module Envoymon
     ); end
 
     def to_json
-      host_port = @data.keys.first
-      values = @data[host_port]
+      return "{}" if @data.empty?
+
+      service_port = @data.keys.first
+      values = @data[service_port]
 
       JSON.build do |json|
         json.object do
@@ -26,7 +28,7 @@ module Envoymon
           json.field "eventType", "EnvoyStats"
           json.field "environment", @environment
           json.field "service", @name
-          json.field "sourceIpHost", host_port
+          json.field "sourceIpHost", service_port
           json.field "cx_active", values["cx_active"]
           json.field "cx_connect_fail", values["cx_connect_fail"]
           json.field "cx_total", values["cx_total"]
