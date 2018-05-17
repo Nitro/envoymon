@@ -19,7 +19,12 @@ module Envoymon
       end
 
       body = generate_post_body(events)
+      begin
       response = HTTP::Client.post(@insights_url, @headers, body)
+      rescue e : Socket::Error | IO::Timeout | Errno
+        log.error "ERROR: Can't post to Insights: #{e}"
+        return
+      end
 
       if response.status_code != 200
         log.error "ERROR: Can't post to Insights: #{response.status_code} -> #{response.body}"
@@ -30,10 +35,7 @@ module Envoymon
     end
 
     private def generate_post_body(events : Array(InsightsEvent))
-      json_array = events.map do |evt|
-        evt.to_json
-      end
-      "[" + json_array.join(",\n") + "]"
+      "[" + events.flat_map { |x| x.to_json_array }.join(",\n") + "]"
     end
 
     private def log

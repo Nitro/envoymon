@@ -17,28 +17,34 @@ module Envoymon
     ); end
 
     def to_json
-      return "{}" if @data.empty?
+      return "[" + to_json_array.join(",") + "]"
+    end
 
-      service_port = @data.keys.first
-      values = @data[service_port]
+    def to_json_array
+      return ["{}"] if @data.empty?
 
-      JSON.build do |json|
-        json.object do
-          json.field "timestamp", @timestamp
-          json.field "eventType", "EnvoyStats"
-          json.field "environment", @environment
-          json.field "service", @name
-          json.field "sourceIpHost", service_port
-          json.field "cx_active", values["cx_active"]
-          json.field "cx_connect_fail", values["cx_connect_fail"]
-          json.field "cx_total", values["cx_total"]
-          json.field "rq_active", values["rq_active"]
-          json.field "rq_error", values["rq_error"]
-          json.field "rq_success", values["rq_success"]
-          json.field "rq_timeout", values["rq_timeout"]
-          json.field "rq_total", values["rq_total"]
-          json.field "weight", values["weight"]
+      @data.keys.reduce(Array(String).new) do |memo, service_port|
+        values = @data[service_port]
+
+        memo << JSON.build do |json|
+          json.object do
+            json.field "timestamp", @timestamp
+            json.field "eventType", "EnvoyStats"
+            json.field "environment", @environment
+            json.field "service", @name
+            json.field "sourceIpHost", service_port
+            json.field "cx_active", values["cx_active"]
+            json.field "cx_connect_fail", values["cx_connect_fail"]
+            json.field "cx_total", values["cx_total"]
+            json.field "rq_active", values["rq_active"]
+            json.field "rq_error", values["rq_error"]
+            json.field "rq_success", values["rq_success"]
+            json.field "rq_timeout", values["rq_timeout"]
+            json.field "rq_total", values["rq_total"]
+            json.field "weight", values["weight"]
+          end
         end
+        memo
       end
     end
 
