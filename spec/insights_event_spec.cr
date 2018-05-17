@@ -84,6 +84,14 @@ describe Envoymon::InsightsEvent do
   end
 
   describe "When generating JSON" do
+    it "contains all the endpoints" do
+      json = new_event.to_json
+
+      expect(json).to match(/10.4.18.35/)
+      expect(json).to match(/10.4.18.235/)
+      expect(json).to match(/10.4.19.228/)
+    end
+
     it "doesn't crash when event is malformed" do
       evt = Envoymon::InsightsEvent.new(
         new_event.timestamp, # just re-use any valid timestamp
@@ -92,11 +100,11 @@ describe Envoymon::InsightsEvent do
         Hash(String, Hash(String, Int64)).new
       )
 
-      expect { evt.to_json }.not_to raise_error
+      expect { evt.to_json_array }.not_to raise_error
     end
 
     it "preserves the environment and service" do
-      json = new_event.to_json
+      json = new_event.to_json_array.join("")
 
       expect(json).to match(/nginx-raster-10111-public/)
       expect(json).to match(/"environment":"dev"/)
